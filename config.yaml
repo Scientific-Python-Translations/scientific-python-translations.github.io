@@ -1,0 +1,58 @@
+baseURL: "https://scientific-python-translations.github.io/"
+languageCode: "en-us"
+title: "Scientific Python Translations"
+theme: scientific-python-hugo-theme
+relativeURLs: true
+disableKinds: ["taxonomy"]
+
+markup:
+  highlight:
+    noClasses: false
+  goldmark:
+    renderer:
+      unsafe: true
+    renderHooks:
+      link:
+        enableDefault: true
+
+params:
+  author:
+    name: "Scientific Python Translations team"
+  description: "Documentation & FAQ for Scientific Python Translations project."
+  images:
+    - /images/logo.svg
+  navbarlogo:
+    image: logo.svg
+    text: Scientific Python Translations
+    link: /
+  hero:
+    title: Scientific Python Translations
+    image: logo.svg
+  navbar:
+    - title: FAQ
+      url: /faq/
+    - title: About
+      url: /about/
+    - title: News
+      url: /news/
+    - title: Roadmap
+      url: /roadmap/
+    - title: Contribute
+      url: /contribute/
+  footer:
+    logo: logo.svg
+    socialmediatitle: ""
+    socialmedia:
+      - link: https://github.com/scientific-python-translations/
+        icon: github
+
+    quicklinks:
+      column1:
+        title: ""
+        links:
+          - text: About
+            link: /about/
+      column2:
+        links:
+      column3:
+        links:
