@@ -14,7 +14,7 @@ content such as API documentation and tutorials is considered to be out
 of scope.
 
 Eventually, we hope to expand to translations of the most important
-beginner-focused tutorial(s).
+beginner-focused tutorials.
 
 ##### Why should the scope for content to translate at least initially be limited to brochure websites?
 
@@ -76,15 +76,14 @@ make a brochure website useful in translation are the same as those
 which characterize a useful brochure website in general.
 
 ##### Why are user supplied machine translations not sufficient?
-First, machine translations can struggle with the technical language and
-jargon of scientific computing. This was observed, for instance, in the
-efforts to translate numpy.org. Machine translations are a great
-starting point, and make work easier for translators, but for content of
-this nature having a human in the loop helps ensure accuracy and
-consistent quality. In addition, publishing official translations help
-give a sense of inclusivity, making non-English speakers feel welcome
-and making it more likely for rich user communities to develop among
-clusters of non-English speakers.
+Machine translations can still struggle with the technical language and
+jargon of scientific computing. Translators who worked on the numpy.org
+project have attested to these challenges. While machine translations provide
+a good starting point for translators, for content of this nature, it
+is valuable to have a human in the loop to ensure accuracy and consistent
+quality. In addition, publishing official translations can help make new
+non-English speakers feel more welcome, increasing their likelihood of
+participating in user communities.
 
 ##### What languages would be involved?
 Languages with a large populations of speakers with no to low English
