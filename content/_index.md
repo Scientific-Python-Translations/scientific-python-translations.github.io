@@ -6,9 +6,9 @@ title:
 
 [[item]]
 type = 'card'
-title = 'Goals'
+title = 'Goal'
 body = '''
-Publish translations of the websites for
+Develop and publish official translations of the websites for the
 [Scientific Python Core Projects](https://scientific-python.org/specs/core-projects/).
 '''
 

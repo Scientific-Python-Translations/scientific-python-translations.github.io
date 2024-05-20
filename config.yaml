@@ -31,12 +31,10 @@ params:
   navbar:
     - title: FAQ
       url: /faq/
-    - title: About
-      url: /about/
     - title: News
       url: /news/
-    - title: Roadmap
-      url: /roadmap/
+    - title: About
+      url: /about/
     - title: Contribute
       url: /contribute/
   footer:
@@ -50,8 +48,14 @@ params:
       column1:
         title: ""
         links:
+          - text: FAQ
+            link: /faq/
+          - text: News
+            link: /news/
           - text: About
             link: /about/
+          - text: Contribute
+            link: /contribute/
       column2:
         links:
       column3:
