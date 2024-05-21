@@ -35,8 +35,8 @@ params:
       url: /news/
     - title: About
       url: /about/
-    - title: Contribute
-      url: /contribute/
+#    - title: Contribute
+#      url: /contribute/
   footer:
     logo: logo.svg
     socialmediatitle: ""
@@ -54,8 +54,8 @@ params:
             link: /news/
           - text: About
             link: /about/
-          - text: Contribute
-            link: /contribute/
+#          - text: Contribute
+#            link: /contribute/
       column2:
         links:
       column3:
