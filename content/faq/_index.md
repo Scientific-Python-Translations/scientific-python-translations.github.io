@@ -98,4 +98,3 @@ You may have seen the [incident](https://discourse.ubuntu.com/t/announcement-ubu
 ##### What if I'm a maintainer who's read all of this and is still skeptical about participating?
 
 Of course, any project’s team of maintainers is free to decide not to participate. Maintainers who agree that publishing these translations is a worthy and practical goal should see this as an opportunity to get external help to achieve it without having to spend scarce maintainer bandwidth on setting up infrastructure, and organizing and coordinating with translators. We will start with projects that are more enthusiastic and may reach out to more skeptical maintainer teams again after we establish a track record to give them an opportunity to re-evaluate.
-
