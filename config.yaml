@@ -35,8 +35,8 @@ params:
       url: /news/
     - title: About
       url: /about/
-#    - title: Contribute
-#      url: /contribute/
+    - title: Translate
+      url: /translate/
   footer:
     logo: logo.svg
     socialmediatitle: ""
