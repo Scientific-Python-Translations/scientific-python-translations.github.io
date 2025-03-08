@@ -29,6 +29,8 @@ params:
     title: Scientific Python Translations
     image: logo.svg
   navbar:
+    - title: Documentation
+      url: /docs/
     - title: FAQ
       url: /faq/
     - title: News
