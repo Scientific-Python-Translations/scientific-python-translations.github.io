@@ -9,7 +9,10 @@ from pathlib import Path
 
 from crowdin_api import CrowdinClient  # type: ignore
 from github import Github, Auth
+from dotenv import load_dotenv
 
+
+load_dotenv()  # take environment variables
 
 
 def parse_input() -> dict:
@@ -18,8 +21,8 @@ def parse_input() -> dict:
         "username": "scientificpythontranslations",
         "crowdin_token": os.environ["CROWDIN_TOKEN"],
         # Provided by gpg action based on organization secrets
-        "name": os.environ["GPG_NAME"],
-        "email": os.environ["GPG_EMAIL"],
+        # "name": os.environ["GPG_NAME"],
+        # "email": os.environ["GPG_EMAIL"],
     }
     return gh_input
 
@@ -146,18 +149,18 @@ def main() -> None:
     """Main function to run the script."""
     try:
         gh_input = parse_input()
-        crowdin_project = gh_input["crowdin_project"]
-        client = ScientificCrowdinClient(
-            token=gh_input["crowdin_token"], organization="Scientific-python"
-        )
-        valid_languages = client.get_valid_languages(
-            crowdin_project,
-            int(gh_input["translation_percentage"]),
-            int(gh_input["approval_percentage"]),
-        )
-        translators = client.get_project_translators(
-            crowdin_project,
-        )
+        # crowdin_project = gh_input["crowdin_project"]
+        # client = ScientificCrowdinClient(
+        #     token=gh_input["crowdin_token"], organization="Scientific-python"
+        # )
+        # valid_languages = client.get_valid_languages(
+        #     crowdin_project,
+        #     int(gh_input["translation_percentage"]),
+        #     int(gh_input["approval_percentage"]),
+        # )
+        # translators = client.get_project_translators(
+        #     crowdin_project,
+        # )
     except Exception as e:
         print(f"Error: {e}")
         traceback.print_exc()

@@ -23,6 +23,8 @@ themes: themes/scientific-python-hugo-theme
 
 html: ## Build site in `./public`
 html: themes content/shortcodes.md
+	python -m pip install --upgrade pip
+	python -m pip install crowdin-api-client pygithub python-dotenv
 	python scripts/update_dashboard.py
 	hugo
 
