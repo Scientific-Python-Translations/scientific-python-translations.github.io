@@ -18,7 +18,7 @@ https://github.com/Scientific-Python-Translations/automations/.
 [Crowdin](https://scientific-python.crowdin.com/) provides GitHub integration
 tools to sync all translated content from the Crowdin web interface into project
 websites and vice-versa. However, a few adaptations are needed. The following
-steps describe what maintainers need to do to set up the integration. See [](#automations) for more details on this script.
+steps describe what maintainers need to do to set up the integration.
 
 ### Setting up Crowdin
 
@@ -32,10 +32,10 @@ for help. For more information, see
 
 To prevent extra activity in the original source repository, we recommend
 creating a separate repository for the translations under
-https://github.com/scientific-python-translations with a GitHub action to sync
-the translations to the original repository (see
-[sync.yml](https://github.com/Scientific-Python-Translations/scipy.org-translations/blob/main/.github/workflows/sync.yml)
-for an example). 
+https://github.com/scientific-python-translations. To get you started with the project 
+repository we provide a [translations-cookiecutter](https://github.com/Scientific-Python-Translations/translations-cookiecutter) template.
+
+This template includes the necessary workflows that will run periodically to keep the infrastructure in sync. See [](#automations) for more details.
 
 ### Announce your project to potential translators
 
@@ -48,37 +48,6 @@ later.
 
 You can find potential translators by reaching out in the `#translation` channel
 on the [Scientific Python Discord server](https://discord.com/invite/vur45CbwMz).
-
-### Merging translations
-
-As translators work on the Crowdin platform, a Pull Request is automatically
-created in the project repository. This PR **should not** be merged, as it
-contains all translations for all languages (see
-[numpy/numpy.org#778](https://github.com/numpy/numpy.org/pull/778) for an
-example). If your website is set up through the Scientific Python Translations
-org, this PR will have the `do-not-merge` label applied to it.
-
-After translations for a language are completed and ready to be deployed, you
-should:
-
-1. Go to the repository corresponding to your project's sources under
-   https://github.com/Scientific-Python-Translations
-2. Go to the Actions tab
-3. Manually trigger the "Create translations PR" workflow, with the language
-   code for your language of interest as input.
-
-<center><img alt="Screenshot of the Actions tab from GitHub, with the Create translations PR workflow highlighted." src="../images/create_translations.png" width=800/></center>
-
-<center><img alt="Screenshot of the Run workflow dialog from GitHub, with an input field labeled Crowding language code for the language of interest" src="../images/run_workflow.png" width=800/></center>
-
-After these steps, a PR will be created to your website repo with the
-translations for the language you selected (see
-[numpy/numpy.org#774](https://github.com/numpy/numpy.org/pull/774) for an example.) This PR should be
-merged when you are ready to publish the translations.
-
-### Cleaning up
-
-After merging the translations PR, the Crowdin service branch (by default, named `l10n_main`) will have merge conflicts with `main`. To fix this, delete the Crowdin service branch. Crowdin will automatically recreate the service branch with merge conflicts resolved. This same process can also be used to resolve merge conflicts if translations are updated outside of Crowdin.
 
 ## Automation details
 
@@ -131,3 +100,41 @@ Translations may not always be up to date for items such as news items and
 release announcements. In this case, your project can decide what to do with
 these items (for example, keep them in English or hide them from the deployed
 site.)
+
+
+
+
+----
+
+
+### Merging translations
+
+As translators work on the Crowdin platform, a Pull Request is automatically
+created in the project repository. This PR **should not** be merged, as it
+contains all translations for all languages (see
+[Scientific-Python-Translations/scipy.org-translations#187](https://github.com/Scientific-Python-Translations/scipy.org-translations/pull/187) for an
+example). If your website is set up through the Scientific Python Translations
+org, this PR will should have the `do-not-merge` label applied to it to ensure the PR
+will not be merged accidentally.
+
+After translations for a language are completed and ready to be deployed, you
+should:
+
+1. Go to the repository corresponding to your project's sources under
+   https://github.com/Scientific-Python-Translations
+2. Go to the Actions tab
+3. Manually trigger the "Create translations PR" workflow, with the language
+   code for your language of interest as input.
+
+<center><img alt="Screenshot of the Actions tab from GitHub, with the Create translations PR workflow highlighted." src="../images/create_translations.png" width=800/></center>
+
+<center><img alt="Screenshot of the Run workflow dialog from GitHub, with an input field labeled Crowding language code for the language of interest" src="../images/run_workflow.png" width=800/></center>
+
+After these steps, a PR will be created to your website repo with the
+translations for the language you selected (see
+[numpy/numpy.org#774](https://github.com/numpy/numpy.org/pull/774) for an example.) This PR should be
+merged when you are ready to publish the translations.
+
+### Cleaning up
+
+After merging the translations PR, the Crowdin service branch (by default, named `l10n_main`) will have merge conflicts with `main`. To fix this, delete the Crowdin service branch. Crowdin will automatically recreate the service branch with merge conflicts resolved. This same process can also be used to resolve merge conflicts if translations are updated outside of Crowdin.
