@@ -1,30 +1,14 @@
 import json
-import yaml
 import os
 import traceback
-import tempfile
 from datetime import datetime
-from subprocess import Popen, PIPE
 from pathlib import Path
 
 from crowdin_api import CrowdinClient  # type: ignore
-from github import Github, Auth
 from dotenv import load_dotenv
 
 
 load_dotenv()  # take environment variables
-
-
-def parse_input() -> dict:
-    gh_input = {
-        # Automations Bot account
-        "username": "scientificpythontranslations",
-        "crowdin_token": os.environ["CROWDIN_TOKEN"],
-        # Provided by gpg action based on organization secrets
-        # "name": os.environ["GPG_NAME"],
-        # "email": os.environ["GPG_EMAIL"],
-    }
-    return gh_input
 
 
 class ScientificCrowdinClient:
@@ -145,17 +129,42 @@ class ScientificCrowdinClient:
         return results
 
 
-def generate_md_file():
+def generate_md_file(data: dict) -> None:
     """Generate a markdown file for the dashboard."""
     script_path = Path(__file__).resolve()
-    parent_dir = script_path.parent
-
-    content '''---
+    parent_dir = script_path.parent.parent / 'content'
+    content = '''---
 title: Translations Status
 draft: false
 ---
-''' 
+'''
     new_file_path = parent_dir / "status.md"
+    for crowdin_project in sorted(data, key=lambda x: x.lower()):
+        project_id = data[crowdin_project]["project_id"]
+        content += f"\n## {crowdin_project}\n"
+        content += """\n<table>
+<tr>
+<th>Language</th>
+<th>Translators</th>
+<th>Completion %</th>
+<th>Approval %</th>
+</tr>
+"""
+        status = data[crowdin_project]["status"]
+        for language_id, _  in sorted(status.items(), key=lambda item: (item[1]['progress'], item[1]['approval']), reverse=True):
+            print(language_id)
+            url = f'https://scientific-python.crowdin.com/u/projects/{project_id}/l/{language_id}'
+            content += f"""<tr>
+<td><a href='{url}'>{data[crowdin_project]['status'][language_id]['language_name']} ({language_id})</a></td>
+<td>{len(data[crowdin_project]['translators'][language_id])}</td>
+<td>{data[crowdin_project]['status'][language_id]['progress']}</td>
+<td>{data[crowdin_project]['status'][language_id]['approval']}</td>
+</tr>"""
+
+        content += "\n</table>\n\n"
+
+    content += f"\n\n---\n\nLast updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+
     with open(new_file_path, "w") as f:
         f.write(content)
 
@@ -163,19 +172,23 @@ draft: false
 def main() -> None:
     """Main function to run the script."""
     try:
-        gh_input = parse_input()
-        # crowdin_project = gh_input["crowdin_project"]
-        # client = ScientificCrowdinClient(
-        #     token=gh_input["crowdin_token"], organization="Scientific-python"
-        # )
-        # valid_languages = client.get_valid_languages(
-        #     crowdin_project,
-        #     int(gh_input["translation_percentage"]),
-        #     int(gh_input["approval_percentage"]),
-        # )
-        # translators = client.get_project_translators(
-        #     crowdin_project,
-        # )
+        client = ScientificCrowdinClient(
+            token=os.environ["CROWDIN_TOKEN"], organization="Scientific-python"
+        )
+        projects = client.get_projects()
+        data = {}
+        for crowdin_project, project_id in sorted(projects.items()):
+            print(f"Project: {crowdin_project} ({project_id})")
+            project_status = client.get_project_status(crowdin_project)
+            translators = client.get_project_translators(
+                crowdin_project,
+            )
+            data[crowdin_project] = {
+                "status": project_status,
+                "translators": translators,
+                "project_id": project_id,
+            }
+        generate_md_file(data)
     except Exception as e:
         print(f"Error: {e}")
         traceback.print_exc()

@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "0 12 * * SUN" # Every Sunday at noon
   workflow_dispatch:
 
 concurrency:
@@ -36,10 +38,10 @@ jobs:
       - name: Install Dart Sass Embedded # Installs dart-sass
         run: sudo snap install dart-sass-embedded
 
-      - name: Install python and dependencies
+      - name: Install python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13' 
+          python-version: '3.8' 
 
       - name: Build with Hugo
         run: |
