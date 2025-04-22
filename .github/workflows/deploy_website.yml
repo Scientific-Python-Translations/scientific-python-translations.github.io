@@ -42,6 +42,8 @@ jobs:
           python-version: '3.8' 
 
       - name: Build with Hugo
+        env:
+          CROWDIN_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
         run: |
           git submodule update --init --recursive  # fetch theme
           make html
