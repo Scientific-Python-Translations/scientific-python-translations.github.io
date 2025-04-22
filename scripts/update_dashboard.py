@@ -1,4 +1,3 @@
-import json
 import os
 import traceback
 from datetime import datetime
@@ -132,28 +131,32 @@ class ScientificCrowdinClient:
 def generate_md_file(data: dict) -> None:
     """Generate a markdown file for the dashboard."""
     script_path = Path(__file__).resolve()
-    parent_dir = script_path.parent.parent / 'content'
-    content = '''---
+    parent_dir = script_path.parent.parent / "content"
+    content = """---
 title: Translations Status
 draft: false
 ---
-'''
+"""
     new_file_path = parent_dir / "status.md"
     for crowdin_project in sorted(data, key=lambda x: x.lower()):
         project_id = data[crowdin_project]["project_id"]
         content += f"\n## {crowdin_project}\n"
-        content += """\n<table>
+        content += """\n<table class="dashboard">
 <tr>
-<th>Language</th>
-<th>Translators</th>
-<th>Completion %</th>
-<th>Approval %</th>
+<th align="center">Language</th>
+<th align="center" >Translators</th>
+<th align="center" >Completion %</th>
+<th align="center" >Approval %</th>
 </tr>
 """
         status = data[crowdin_project]["status"]
-        for language_id, _  in sorted(status.items(), key=lambda item: (item[1]['progress'], item[1]['approval']), reverse=True):
+        for language_id, _ in sorted(
+            status.items(),
+            key=lambda item: (item[1]["progress"], item[1]["approval"]),
+            reverse=True,
+        ):
             print(language_id)
-            url = f'https://scientific-python.crowdin.com/u/projects/{project_id}/l/{language_id}'
+            url = f"https://scientific-python.crowdin.com/u/projects/{project_id}/l/{language_id}"
             content += f"""<tr>
 <td><a href='{url}'>{data[crowdin_project]['status'][language_id]['language_name']} ({language_id})</a></td>
 <td>{len(data[crowdin_project]['translators'][language_id])}</td>
@@ -163,7 +166,7 @@ draft: false
 
         content += "\n</table>\n\n"
 
-    content += f"\n\n---\n\nLast updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+    content += f"\n\n---\n\nLast updated: {datetime.now().strftime('%Y-%m-%d')}\n"
 
     with open(new_file_path, "w") as f:
         f.write(content)
