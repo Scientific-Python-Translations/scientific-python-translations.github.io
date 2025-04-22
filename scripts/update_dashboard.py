@@ -158,6 +158,11 @@ def main() -> None:
         translators = client.get_project_translators(
             crowdin_project,
         )
+    except Exception as e:
+        print(f"Error: {e}")
+        traceback.print_exc()
+        return
+
 
 if __name__ == "__main__":
     main()
