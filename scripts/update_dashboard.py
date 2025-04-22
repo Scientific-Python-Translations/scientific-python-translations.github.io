@@ -145,6 +145,21 @@ class ScientificCrowdinClient:
         return results
 
 
+def generate_md_file():
+    """Generate a markdown file for the dashboard."""
+    script_path = Path(__file__).resolve()
+    parent_dir = script_path.parent
+
+    content '''---
+title: Translations Status
+draft: false
+---
+''' 
+    new_file_path = parent_dir / "status.md"
+    with open(new_file_path, "w") as f:
+        f.write(content)
+
+
 def main() -> None:
     """Main function to run the script."""
     try:
