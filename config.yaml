@@ -39,6 +39,10 @@ params:
       url: /about/
     - title: Translate
       url: /translate/
+    - title: Status
+      url: /status/
+    - title: Contributors
+      url: /contributors/
   footer:
     logo: logo.svg
     socialmediatitle: ""

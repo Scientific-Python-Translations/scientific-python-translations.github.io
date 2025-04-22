@@ -128,7 +128,60 @@ class ScientificCrowdinClient:
         return results
 
 
-def generate_md_file(data: dict) -> None:
+def generate_card(
+    name: str,
+    img_link: str,
+) -> str:
+    """
+    Generate a card in TOML format.
+    """
+    toml_card_template = """[[item]]
+type = 'card'
+classcard = 'text-center'
+body = '''{{{{< image >}}}}
+src = '{img_link}'
+alt = 'Avatar of {name}'
+{{{{< /image >}}}}
+{name}'''"""
+    return toml_card_template.format(
+        img_link=img_link,
+        name=name,
+    )
+
+
+def generate_contributors_md_file(data: dict) -> None:
+    script_path = Path(__file__).resolve()
+    parent_dir = script_path.parent.parent / "content"
+    content = """---
+title: Translation Contributors
+draft: false
+---
+
+"""
+
+    for crowdin_project in sorted(data, key=lambda x: x.lower()):
+        content += f"\n## {crowdin_project}\n"
+        content += '\n{{< grid columns="2 3 4 5" >}}\n\n'
+        translators = data[crowdin_project]["translators"]
+        for _, contributors in translators.items():
+            if contributors:
+                for contributor in contributors:
+                    content += "\n\n"
+                    content += generate_card(
+                        name=contributor["name"], img_link=contributor["img_link"]
+                    )
+                    content += "\n\n"
+
+        content += "\n{{< /grid >}}"
+
+    new_file_path = parent_dir / "contributors.md"
+    content += f"\n\n---\n\nLast updated: {datetime.now().strftime('%Y-%m-%d')}\n"
+
+    with open(new_file_path, "w") as f:
+        f.write(content)
+
+
+def generate_dashboard_md_file(data: dict) -> None:
     """Generate a markdown file for the dashboard."""
     script_path = Path(__file__).resolve()
     parent_dir = script_path.parent.parent / "content"
@@ -158,10 +211,10 @@ draft: false
             print(language_id)
             url = f"https://scientific-python.crowdin.com/u/projects/{project_id}/l/{language_id}"
             content += f"""<tr>
-<td><a href='{url}'>{data[crowdin_project]['status'][language_id]['language_name']} ({language_id})</a></td>
+<td><a href='{url}'>{status[language_id]['language_name']} ({language_id})</a></td>
 <td>{len(data[crowdin_project]['translators'][language_id])}</td>
-<td>{data[crowdin_project]['status'][language_id]['progress']}</td>
-<td>{data[crowdin_project]['status'][language_id]['approval']}</td>
+<td>{status[language_id]['progress']}</td>
+<td>{status[language_id]['approval']}</td>
 </tr>"""
 
         content += "\n</table>\n\n"
@@ -191,7 +244,8 @@ def main() -> None:
                 "translators": translators,
                 "project_id": project_id,
             }
-        generate_md_file(data)
+        generate_dashboard_md_file(data)
+        generate_contributors_md_file(data)
     except Exception as e:
         print(f"Error: {e}")
         traceback.print_exc()
