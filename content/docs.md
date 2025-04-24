@@ -23,7 +23,7 @@ steps describe what maintainers need to do to set up the integration.
 ### Setting up Crowdin
 
 Create a Crowdin project for your repository and turn on synchronization
-between Crowdin and your source repo. If you planning on using the
+between Crowdin and your source repo. If you are planning on using the
 [Scientific Python Crowdin workspace](https://scientific-python.crowdin.com/),
 please reach out to the
 [Scientific Python translations team on discord](https://discord.com/invite/vur45CbwMz)
