@@ -23,6 +23,9 @@ themes: themes/scientific-python-hugo-theme
 
 html: ## Build site in `./public`
 html: themes content/shortcodes.md
+	python -m pip install --upgrade pip
+	python -m pip install crowdin-api-client python-dotenv
+	python scripts/update_dashboard.py
 	hugo
 
 serve: ## Serve site, typically on http://localhost:1313
