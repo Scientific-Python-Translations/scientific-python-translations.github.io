@@ -82,7 +82,7 @@ cookiecutter gh:Scientific-Python-Translations/translations-cookiecutter
 
 When prompted, enter the details for your project (e.g. project name, organization, base branch). The structure will include necessary metadata, content folders, and pre-commit configuration. See the [Cookiecutter repository](https://github.com/Scientific-Python-Translations/translations-cookiecutter) for more information.
 
-### Sync Content from the Source Repo
+### Sync content from the source repo
 
 The `sync_content.yml` github workflow is in charge of keeping the **original source content** in sync with the translations repository within the Scientific Python Translations organization.
 
