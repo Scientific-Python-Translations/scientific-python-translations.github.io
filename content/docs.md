@@ -72,6 +72,8 @@ To do this, navigate to your project's Settings in Crowdin, select Import and un
 
 ## Automation details
 
+The following diagram illustrates how the different component of automation work.
+
 ```mermaid
 flowchart TD
     B -.->|sync_translations.yml <br/> #40;PRs to add translations#41;| A
