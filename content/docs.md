@@ -55,7 +55,7 @@ As translators work on the Crowdin platform, a Pull Request is automatically
 created in the project repository. This PR **should not** be merged, as it
 contains all translations for all languages (see
 [Scientific-Python-Translations/scipy.org-translations#187](https://github.com/Scientific-Python-Translations/scipy.org-translations/pull/187) for an
-example). If your website is set up through the Scientific Python Translations
+example). This PR will be opened againts the translations repository (e.g. Scientific-Python-Translations/scipy.org-translations). If your website is set up throughthe Scientific Python Translations
 org, this PR will should have the `do-not-merge` label applied to it to ensure the PR
 will not be merged accidentally.
 
@@ -71,6 +71,14 @@ To do this, navigate to your project's Settings in Crowdin, select Import and un
 
 
 ## Automation details
+
+```mermaid
+flowchart TD
+    B -.->|sync_translations.yml <br/> #40;PRs to add translations#41;| A
+    A[Source repository <br/><br/> #40;numpy/numpy.org#41;] -->|sync_content.yml <br/> #40;PR to sync content - automerged#41;| B[Translation repository <br/><br/> #40;Scientific-Python-Translations/numpy.org-translations#41;]
+    C[Crowdin <br/><br/> #40;scientific-python.crowdin.com#41;] -->|sync_translations.yml <br/> #40;PRs to add translations & contributors - automerged#41;| B
+    A -->|Crowdin integration| C
+```
 
 ### Cookiecutter template
 
