@@ -72,7 +72,7 @@ To do this, navigate to your project's Settings in Crowdin, select Import and un
 
 ## Automation details
 
-### Cookiecutter Template
+### Cookiecutter template
 
 Use the cookiecutter template to generate a translation-ready repo:
 
