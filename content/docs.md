@@ -84,11 +84,11 @@ When prompted, enter the details for your project (e.g. project name, organizati
 
 ### Sync content from the source repo
 
-The `sync_content.yml` github workflow is in charge of keeping the **original source content** in sync with the translations repository within the Scientific Python Translations organization.
+The [`sync_content.yml` github workflow](https://github.com/Scientific-Python-Translations/translations-cookiecutter/blob/main/%7B%7Bcookiecutter.__translations_repo_name%7D%7D/.github/workflows/sync_content.yml) is in charge of keeping the **original source content** in sync with the translations repository within the Scientific Python Translations organization.
 
 This workflow uses the `content-sync` [Github action](https://github.com/Scientific-Python-Translations/content-sync). 
 
-### Example: Sync Scipy content
+### Example: Sync SciPy content
 
 ```yaml
 name: Sync Content
@@ -116,16 +116,16 @@ jobs:
           token: ${{ secrets.TOKEN }}
 ```
 
-This ensures your translation repo always has the latest source material in English. If the source content has changed since the latest workflow run, 
-the translations bot will automatically create a Pull Request, with signed commits, and merge it automatically.
+This ensures your translation repo always has the latest source material in English (the chosen source language). If the source content has changed since the latest workflow run, 
+the translations bot will automatically create a Pull Request with signed commits and merge it automatically.
 
-### Pull Translations from Crowdin
+### Pull translations from Crowdin
 
-The `sync_tarnslations.yml` github workflow is in charge of keeping the **translated content** in sync with the translations repository within the Scientific Python Translations organization.
+The [`sync_translations.yml` github workflow](https://github.com/Scientific-Python-Translations/translations-cookiecutter/blob/main/%7B%7Bcookiecutter.__translations_repo_name%7D%7D/.github/workflows/sync_translations.yml) is in charge of keeping the **translated content** in sync with the translations repository within the Scientific Python Translations organization.
 
 This workflow uses the `translations-sync` [Github action](https://github.com/Scientific-Python-Translations/translations-sync). 
 
-#### Example: Sync Scipy.org translations
+#### Example: Sync SciPy.org translations
 
 ```yaml
 name: Sync Translations
@@ -159,24 +159,24 @@ jobs:
           crowdin-token: ${{ secrets.CROWDIN_TOKEN }}
 ```
 
-Everytime this workflow runs, the translations bot will check for the available languages and check if they meet the translation percentage (90% by default) and approval percentage (0% by default). For every language that passes the criteria, which can be defined by the project mainatiners, a new Pull Request with signed commits will be created in the translations repository and the source repository.
+In the Crowdin interface, source strings are _translated_ and then _approved_ (which means a second translator has reviewed and approved the translation of this source string). Everytime this workflow runs, the translations bot will check for the available languages and check if they meet the translation percentage (90% by default) and approval percentage (0% by default). For every language that passes the criteria, which can be defined by the project mainatiners, a new Pull Request with signed commits will be created in the translations repository and the source repository.
 
 To gather information on translators, an additional Pull Request will be created on the translations repository with a `translators.yml` file that lists the details such as username, fullname and avatar from the crowdin site.
 
-All Pull Requests created by the Automations Bot on the translation repositories, will be automatically merged.
+All Pull Requests created by the Automations Bot on the translation repositories will be automatically merged.
 
 ### Cleaning up
 
 After merging the translations PR, the Crowdin service branch (by default, named `l10n_main`) may have merge conflicts with `main`. To fix this, delete the Crowdin service branch. Crowdin will automatically recreate the service branch with merge conflicts resolved. This same process can also be used to resolve merge conflicts if translations are updated outside of Crowdin.
 
-### The Translations Bot
+### The translations bot
 
 All automations and pull requests are performed by:  
 [**@scientificpythontranslations**](https://github.com/scientificpythontranslations)
 
 Make sure to grant the bot appropriate repository permissions and exempt it from branch protection rules if needed.
 
-### 📚 Additional Resources
+### 📚 Additional resources
 
 - [How to Translate Content](https://scientific-python-translations.github.io/translate/)
 - [FAQ](https://scientific-python-translations.github.io/faq/)
