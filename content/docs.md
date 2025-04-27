@@ -72,12 +72,12 @@ To do this, navigate to your project's Settings in Crowdin, select Import and un
 
 ## Automation details
 
-The following diagram illustrates how the different component of automation work.
+The following diagram illustrates how the different components of automation work takeing the scipy.org webiste as an example.
 
 ```mermaid
 flowchart TD
     B -.->|sync_translations.yml <br/> #40;PRs to add translations#41;| A
-    A[Source repository <br/><br/> #40;numpy/numpy.org#41;] -->|sync_content.yml <br/> #40;PR to sync content - automerged#41;| B[Translation repository <br/><br/> #40;Scientific-Python-Translations/numpy.org-translations#41;]
+    A[Source repository <br/><br/> #40;scipy/scipy.org#41;] -->|sync_content.yml <br/> #40;PR to sync content - automerged#41;| B[Translation repository <br/><br/> #40;Scientific-Python-Translations/scipy.org-translations#41;]
     C[Crowdin <br/><br/> #40;scientific-python.crowdin.com#41;] -->|sync_translations.yml <br/> #40;PRs to add translations & contributors - automerged#41;| B
     A -->|Crowdin integration| C
 ```
