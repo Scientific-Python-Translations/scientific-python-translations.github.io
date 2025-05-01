@@ -163,14 +163,19 @@ draft: false
         content += f"\n## {crowdin_project}\n"
         content += '\n{{< grid columns="2 3 4 5" >}}\n\n'
         translators = data[crowdin_project]["translators"]
+        all_translators = []
         for _, contributors in translators.items():
             if contributors:
                 for contributor in contributors:
-                    content += "\n\n"
-                    content += generate_card(
-                        name=contributor["name"], img_link=contributor["img_link"]
-                    )
-                    content += "\n\n"
+                    if contributor not in all_translators:
+                        all_translators.append(contributor)
+
+        for contributor in all_translators:
+            content += "\n\n"
+            content += generate_card(
+                name=contributor["name"], img_link=contributor["img_link"]
+            )
+            content += "\n\n"
 
         content += "\n{{< /grid >}}"
 
