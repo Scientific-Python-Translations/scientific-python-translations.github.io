@@ -60,6 +60,7 @@ org, this PR will should have the `do-not-merge` label applied to it to ensure t
 will not be merged accidentally.
 
 {{< admonition important >}}
+
 To prevent future conflicts with the GitHub/Crowdin integration, it is important
 that you configure Crowdin to have duplicate strings share the same translation.
 To do this, navigate to your project's Settings in Crowdin, select Import and under
@@ -114,11 +115,13 @@ jobs:
         uses: Scientific-Python-Translations/content-sync@main
         with:
           source-repo: "scipy/scipy.org"
-          source-folder: "scipy.org/content/en/"
+          source-path: "content/en/"
           source-ref: "main"
           translations-repo: "Scientific-Python-Translations/scipy.org-translations"
-          translations-folder: "scipy.org-translations/content/en/"
+          translations-path: "content/"
+          translations-source-path: "content/en/"
           translations-ref: "main"
+          auto-merge: "true"
           # These are provided by the Scientific Python Project and allow
           # automation with bots
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -153,15 +156,18 @@ jobs:
           # Provided by user
           crowdin-project: "scipy.org"
           source-repo: "scipy/scipy.org"
-          source-folder: "scipy.org/content/en/"
+          source-path: "content/en/"
           source-ref: "main"
           translations-repo: "Scientific-Python-Translations/scipy.org-translations"
-          translations-folder: "scipy.org-translations/content/en/"
+          translations-path: "content/"
+          translations-source-path: "content/en/"
           translations-ref: "main"
           translation-percentage: "90"
           approval-percentage: "0"
           use-precommit: "true"
           create-toml-file: "true"
+          create-upstream-pr: "true"
+          auto-merge: "true"
           # Provided by organization secrets
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
