@@ -153,7 +153,6 @@ jobs:
       - name: Sync Scipy translations
         uses: Scientific-Python-Translations/translations-sync@main
         with:
-          # Provided by user
           crowdin-project: "scipy.org"
           source-repo: "scipy/scipy.org"
           source-path: "content/en/"
@@ -168,7 +167,8 @@ jobs:
           create-toml-file: "true"
           create-upstream-pr: "true"
           auto-merge: "true"
-          # Provided by organization secrets
+          # These are provided by the Scientific Python Project and allow
+          # automation with bots
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           token: ${{ secrets.TOKEN }}
@@ -183,7 +183,39 @@ All Pull Requests created by the Automations Bot on the translation repositories
 
 ### Cleaning up
 
-After merging the translations PR, the Crowdin service branch (by default, named `l10n_main`) may have merge conflicts with `main`. To fix this, delete the Crowdin service branch. Crowdin will automatically recreate the service branch with merge conflicts resolved. This same process can also be used to resolve merge conflicts if translations are updated outside of Crowdin.
+After merging the translations PR, the Crowdin service branch (by default, named `l10n_main`) may have merge conflicts with `main`. To fix this, we used the `clean-up` Github action to delete the Crowdin service branch. Crowdin will automatically recreate the service branch with merge conflicts resolved. This Action will also delete any stale
+branches in the translations repository to keep things tidy.
+
+### Example: Clean up SciPy translations repository
+
+This workflow uses the `clean-up` [Github action](https://github.com/Scientific-Python-Translations/clean-up).
+
+```yaml
+name: Clean Up
+
+on:
+  schedule:
+    - cron: '0 0 * * FRI'  # Every Fridat at midnight
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clean Scipy translations repository
+        uses: Scientific-Python-Translations/clean-up@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          translations-repo: "Scientific-Python-Translations/scipy.org-translations"
+          translations-ref: "main"
+          # These are provided by the Scientific Python Project and allow
+          # automation with bots
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          token: "not-a-real-token"
+          crowdin-token: ${{ secrets.CROWDIN_TOKEN }}
+```
 
 ### The translations bot
 
@@ -192,24 +224,41 @@ All automations and pull requests are performed by:
 
 Make sure to grant the bot appropriate repository permissions and exempt it from branch protection rules if needed.
 
-### 📚 Additional resources
+## Preparing your project for internationalization and localization
 
-- [How to Translate Content](https://scientific-python-translations.github.io/translate/)
-- [FAQ](https://scientific-python-translations.github.io/faq/)
-- [Crowdin Setup](https://crowdin.com/)
-- [Scientific Python Discord – `#translation`](https://scientific-python.org/community/)
+### Folder structure
 
-## Setting up a language switcher
+This will depend on the framework you are using as many of these will provide solutions
+for localization. The principle is to have all files that have translatable content inside
+a folder named `en`. You can take a look at different examples from the following projects
 
-This work is in progress - follow (issue #) for details.
+#### Hugo using the Scientific Python theme
 
-### Scientific Python Hugo Theme
+All translatable content is stored in `content/en/`
 
-### PyData Sphinx Theme
+- [scipy](https://github.com/scipy/scipy.org/)
+- [numpy](https://github.com/numpy/numpy.org/)
 
-This work is in progress - follow [pydata/pydata-sphinx-theme#507](https://github.com/pydata/pydata-sphinx-theme/issues/507) for details.
+#### NextJs with Babel and Lingui
 
-## Known limitations
+On this project the content is stored in `src/locales/en/`
+
+- [Xarray](https://github.com/xarray-contrib/xarray.dev/pull/772)
+
+#### Jekyll 
+
+- [Zarr](https://github.com/zarr-developers/zarr-developers.github.io/pull/144)
+
+#### Static sites
+
+On this project the content is stored in `build/en`
+
+- [Networkx](https://github.com/networkx/website)
+
+### Setting up a language switcher
+
+Once again this will depend on the framework you are using as many of these may provide solutions
+for this. You can look at examples from the project described in the previous section.
 
 ### Missing translations
 
@@ -217,3 +266,12 @@ Translations may not always be up to date for items such as news items and
 release announcements. In this case, your project can decide what to do with
 these items (for example, keep them in English or hide them from the deployed
 site.)
+
+### 📚 Additional resources
+
+- [How to Translate Content](https://scientific-python-translations.github.io/translate/)
+- [FAQ](https://scientific-python-translations.github.io/faq/)
+- [Crowdin Setup](https://crowdin.com/)
+- [Scientific Python Discord – `#translation`](https://scientific-python.org/community/)
+- [Scientific Python Hugo Theme](https://github.com/scientific-python/scientific-python-hugo-theme/)
+- [pydata/pydata-sphinx-theme#507](https://github.com/pydata/pydata-sphinx-theme/issues/)
