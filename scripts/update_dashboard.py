@@ -119,6 +119,7 @@ class ScientificCrowdinClient:
                                 "/medium/", "/large/"
                             ),
                         }
+                        # Avoid duplicates
                         if user_data not in results[lang]:
                             results[lang].append(user_data)
                     offset += limit
@@ -149,7 +150,7 @@ alt = 'Avatar of {name}'
     )
 
 
-def generate_contributors_md_file(data: dict) -> None:
+def generate_contributors_md_file(data: dict, skip) -> None:
     script_path = Path(__file__).resolve()
     parent_dir = script_path.parent.parent / "content"
     content = """---
@@ -171,6 +172,10 @@ draft: false
                         all_translators.append(contributor)
 
         for contributor in all_translators:
+            # Skip bot users
+            if contributor["username"] in skip:
+                continue
+
             content += "\n\n"
             content += generate_card(
                 name=contributor["name"], img_link=contributor["img_link"]
@@ -250,7 +255,9 @@ def main() -> None:
                 "project_id": project_id,
             }
         generate_dashboard_md_file(data)
-        generate_contributors_md_file(data)
+        generate_contributors_md_file(
+            data, skip=["scientific-python", "scientificpythontranslations"]
+        )
     except Exception as e:
         print(f"Error: {e}")
         traceback.print_exc()
